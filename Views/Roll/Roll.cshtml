@@ -1,0 +1,41 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Chat</h2>
+<div class="container">
+    <input type="button" id="sendmessage" value="Send" />
+    <input type="hidden" id="displayname" />
+    <ul id="discussion"></ul>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/jquery.signalR-2.1.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(function () {
+            var chat = $.connection.rollHub;
+            chat.client.addNewMessageToPage = function (name, message) {
+                $('#discussion').append('<li><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
+            };
+
+            $('#displayname').val(prompt('Enter your name:', ''));
+
+            $.connection.hub.start().done(function () {
+                chat.server.joinRoll(window.location.pathname);
+
+                $('#sendmessage').click(function () {
+                    chat.server.roll(window.location.pathname, $('#displayname').val());
+                });
+            });
+        });
+
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+    </script>
+}
