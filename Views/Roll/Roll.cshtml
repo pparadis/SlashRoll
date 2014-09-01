@@ -1,16 +1,31 @@
 ﻿@model dynamic
 
 @{
-    ViewBag.Title = "title";
+    //ViewBag.Title = "Let's roll!";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Chat</h2>
+
 <div class="container">
-    <input type="button" id="sendmessage" value="Send" />
-    <input type="hidden" id="displayname" />
-    <ul id="discussion"></ul>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Roll</h2>
+            <button id="sendmessage" type="button" class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon-star"></span> Roll
+            </button>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <ul id="discussion"></ul>
+        </div>
+    </div>
 </div>
+
+<input type="hidden" id="displayname" />
 
 @section scripts {
     <script src="~/Scripts/jquery.signalR-2.1.1.min.js"></script>
